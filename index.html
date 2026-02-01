@@ -295,9 +295,6 @@
   </style>
 </head>
 <body>
-  <!-- Debug-Anzeige für Payload (oben links) -->
-  <div id="debug-payload" style="position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: #0f0; padding: 8px 12px; font-family: monospace; font-size: 14px; border-radius: 4px; z-index: 9999; display: none;"></div>
-
   <main class="container">
     <section class="profile-section">
       <h1 class="username">Dein Name</h1>
@@ -361,11 +358,6 @@
     if (hash && hash.length > 1) {
       // Entferne das '#' am Anfang
       const payload = hash.substring(1);
-      
-      // Debug-Anzeige oben links einblenden
-      const debugDiv = document.getElementById('debug-payload');
-      debugDiv.textContent = 'Payload: ' + payload;
-      debugDiv.style.display = 'block';
 
       // Passwort-Card anzeigen und Payload einfügen
       const passwordCard = document.getElementById('password-card');
