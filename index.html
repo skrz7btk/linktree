@@ -38,17 +38,16 @@
         --gradient-opacity: 0.12;
       }
 
-      body {
+      body::before {
         background:
-          radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
-          radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
-          radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 70%),
-          var(--bg-dark);
+          radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.2) 0%, transparent 40%),
+          radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.2) 0%, transparent 40%),
+          radial-gradient(circle at 40% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
       }
 
       .link-card {
-        background: rgba(0, 0, 0, 0.02);
-        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1.5px solid rgba(255, 255, 255, 0.5);
       }
     }
 
@@ -60,11 +59,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      background:
-        radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 70%),
-        var(--bg-dark);
+      background: var(--bg-dark);
       color: var(--text-primary);
       min-height: 100vh;
       display: flex;
@@ -72,154 +67,191 @@
       align-items: center;
       justify-content: center;
       padding: 40px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 40% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+      z-index: 0;
     }
 
     .container {
       width: 100%;
-      max-width: 400px;
+      max-width: 450px;
       animation: fadeIn 0.8s ease-out;
+      position: relative;
+      z-index: 1;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .profile-section {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 40px;
-    }
-
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
-      padding: 3px;
-      margin-bottom: 20px;
-      position: relative;
-      animation: pulse 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 20px var(--glow); }
-      50% { box-shadow: 0 0 40px var(--glow); }
-    }
-
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      background: var(--bg-card);
-    }
-
-    .avatar::before {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      padding: 4px;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0.5;
+      margin-bottom: 48px;
     }
 
     .username {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--accent-1); /* Fallback für Browser ohne background-clip: text */
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-align: center;
+      position: relative;
+      padding: 0 20px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      filter: drop-shadow(0 2px 10px rgba(99, 102, 241, 0.3));
+      animation: titleGlow 3s ease-in-out infinite;
     }
 
-    /* Fallback: Falls background-clip: text nicht unterstützt wird */
-    @supports not (background-clip: text) {
-      .username {
-        background: none;
-        color: var(--accent-1);
-      }
+    @keyframes titleGlow {
+      0%, 100% { filter: drop-shadow(0 2px 10px rgba(99, 102, 241, 0.3)); }
+      50% { filter: drop-shadow(0 4px 20px rgba(168, 85, 247, 0.5)); }
     }
-
-    .bio {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      text-align: center;
-      opacity: 0.9;
+    
+    .username::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -16px;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+      border-radius: 2px;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
     }
 
     .links {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .link-card {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 18px 24px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: var(--border-radius);
+      gap: 20px;
+      padding: 22px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
       text-decoration: none;
       color: var(--text-primary);
-      transition: var(--transition);
+      transition: 
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      will-change: transform;
     }
 
     .link-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.2));
       opacity: 0;
-      transition: var(--transition);
+      transition: opacity 0.3s ease;
+    }
+
+    .link-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: 
+        left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.3s ease;
+      opacity: 0;
     }
 
     .link-card:hover {
-      transform: translateY(-3px) scale(1.01);
-      border-color: rgba(99, 102, 241, 0.3);
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(99, 102, 241, 0.5);
       box-shadow:
-        0 10px 40px -10px rgba(99, 102, 241, 0.2),
-        0 0 0 1px rgba(99, 102, 241, 0.1) inset;
+        0 20px 60px -10px rgba(99, 102, 241, 0.5),
+        0 0 0 1px rgba(99, 102, 241, 0.3) inset,
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
 
     .link-card:hover::before {
       opacity: 1;
     }
 
+    .link-card:hover::after {
+      opacity: 1;
+      left: 150%;
+    }
+
     .link-icon {
-      width: 28px;
-      height: 28px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      background: rgba(99, 102, 241, 0.15);
+      border-radius: 12px;
+      transition: 
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.3s ease;
+      will-change: transform;
+    }
+
+    .link-card:hover .link-icon {
+      background: rgba(99, 102, 241, 0.3);
+      transform: scale(1.1);
     }
 
     .link-text {
-      font-weight: 500;
-      font-size: 1rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      position: relative;
+      z-index: 1;
+      letter-spacing: -0.01em;
     }
 
     .link-arrow {
       margin-left: auto;
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: var(--transition);
+      opacity: 0.4;
+      transform: translateX(-12px);
+      transition: 
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.25s ease;
+      font-size: 1.2rem;
+      position: relative;
+      z-index: 1;
+      will-change: transform;
     }
 
     .link-card:hover .link-arrow {
@@ -250,10 +282,6 @@
         animation: none;
       }
 
-      .avatar {
-        animation: none;
-      }
-
       .link-card,
       .link-card::before,
       .link-arrow {
@@ -264,71 +292,74 @@
         transform: none;
       }
     }
-
-    footer {
-      margin-top: 50px;
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      opacity: 0.6;
-    }
   </style>
 </head>
 <body>
+  <!-- Debug-Anzeige für Payload (oben links) -->
+  <div id="debug-payload" style="position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: #0f0; padding: 8px 12px; font-family: monospace; font-size: 14px; border-radius: 4px; z-index: 9999; display: none;"></div>
+
   <main class="container">
     <section class="profile-section">
-      <div class="avatar">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%231a1a24' width='100' height='100'/%3E%3Ccircle cx='50' cy='35' r='20' fill='%236366f1' opacity='0.6'/%3E%3Cellipse cx='50' cy='85' rx='35' ry='25' fill='%236366f1' opacity='0.4'/%3E%3C/svg%3E" alt="Profilbild">
-      </div>
       <h1 class="username">Dein Name</h1>
-      <p class="bio">Kurzbeschreibung oder Underline</p>
     </section>
 
     <nav class="links" aria-label="Soziale Links">
-      <a href="#" class="link-card" aria-label="Portfolio besuchen">
+      <a href="https://example.com/portfolio" class="link-card" aria-label="Portfolio besuchen">
         <span class="link-icon" aria-hidden="true">💼</span>
         <span class="link-text">Portfolio</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
-      <a href="#" class="link-card" rel="noopener noreferrer" aria-label="GitHub-Profil öffnen">
+      <a href="https://github.com/username" class="link-card" rel="noopener noreferrer" aria-label="GitHub-Profil öffnen">
         <span class="link-icon" aria-hidden="true">🐙</span>
         <span class="link-text">GitHub</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
-      <a href="#" class="link-card" rel="noopener noreferrer" aria-label="Twitter/X-Profil öffnen">
+      <a href="https://twitter.com/username" class="link-card" rel="noopener noreferrer" aria-label="Twitter/X-Profil öffnen">
         <span class="link-icon" aria-hidden="true">🐦</span>
         <span class="link-text">Twitter / X</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
-      <a href="#" class="link-card" aria-label="E-Mail schreiben">
+      <a href="mailto:deine@email.de" class="link-card" aria-label="E-Mail schreiben">
         <span class="link-icon" aria-hidden="true">📧</span>
         <span class="link-text">E-Mail</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
-      <a href="#" class="link-card" rel="noopener noreferrer" aria-label="Discord beitreten">
+      <a href="https://discord.gg/einladung" class="link-card" rel="noopener noreferrer" aria-label="Discord beitreten">
         <span class="link-icon" aria-hidden="true">💬</span>
         <span class="link-text">Discord</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
-      <a href="#" class="link-card" rel="noopener noreferrer" aria-label="Instagram-Profil öffnen">
+      <a href="https://instagram.com/username" class="link-card" rel="noopener noreferrer" aria-label="Instagram-Profil öffnen">
         <span class="link-icon" aria-hidden="true">📷</span>
         <span class="link-text">Instagram</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
-      <a href="#" class="link-card" rel="noopener noreferrer" aria-label="LinkedIn-Profil öffnen">
+      <a href="https://linkedin.com/in/username" class="link-card" rel="noopener noreferrer" aria-label="LinkedIn-Profil öffnen">
         <span class="link-icon" aria-hidden="true">💼</span>
         <span class="link-text">LinkedIn</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
-      <a href="#" class="link-card" rel="noopener noreferrer" aria-label="Buy Me a Coffee öffnen">
+      <a href="https://buymeacoffee.com/username" class="link-card" rel="noopener noreferrer" aria-label="Buy Me a Coffee öffnen">
         <span class="link-icon" aria-hidden="true">☕</span>
         <span class="link-text">Buy Me a Coffee</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
     </nav>
-
-    <footer>
-      © 2026
-    </footer>
   </main>
+
+  <script>
+    // Hash-Fragment aus URL auslesen (z.B. /#payload123)
+    const hash = window.location.hash;
+    
+    if (hash && hash.length > 1) {
+      // Entferne das '#' am Anfang
+      const payload = hash.substring(1);
+      
+      // Debug-Anzeige oben links einblenden
+      const debugDiv = document.getElementById('debug-payload');
+      debugDiv.textContent = 'Payload: ' + payload;
+      debugDiv.style.display = 'block';
+    }
+  </script>
 </body>
 </html>
