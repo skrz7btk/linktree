@@ -344,6 +344,13 @@
         <span class="link-text">Buy Me a Coffee</span>
         <span class="link-arrow" aria-hidden="true">→</span>
       </a>
+
+      <!-- Passwort-Bereich (nur sichtbar mit Payload) -->
+      <button id="password-card" class="link-card" style="display: none; cursor: pointer; border: none; width: 100%;" aria-label="Passwort in Zwischenablage kopieren">
+        <span class="link-icon" aria-hidden="true">🔑</span>
+        <span class="link-text" id="password-text">Dokumentenpasswort: </span>
+        <span class="link-arrow" aria-hidden="true">📋</span>
+      </button>
     </nav>
   </main>
 
@@ -359,6 +366,28 @@
       const debugDiv = document.getElementById('debug-payload');
       debugDiv.textContent = 'Payload: ' + payload;
       debugDiv.style.display = 'block';
+
+      // Passwort-Card anzeigen und Payload einfügen
+      const passwordCard = document.getElementById('password-card');
+      const passwordText = document.getElementById('password-text');
+      passwordText.textContent = 'Dokumentenpasswort: ' + payload;
+      passwordCard.style.display = 'flex';
+
+      // Copy-to-Clipboard Funktionalität
+      passwordCard.addEventListener('click', function() {
+        navigator.clipboard.writeText(payload).then(function() {
+          // Visuelles Feedback: Icon kurz ändern
+          const arrow = passwordCard.querySelector('.link-arrow');
+          const originalIcon = arrow.textContent;
+          arrow.textContent = '✓';
+          
+          setTimeout(function() {
+            arrow.textContent = originalIcon;
+          }, 1500);
+        }).catch(function(err) {
+          console.error('Fehler beim Kopieren:', err);
+        });
+      });
     }
   </script>
 </body>
