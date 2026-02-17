@@ -1,213 +1,401 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Digitale Visitenkarte und Linktree – Alle wichtigen Links auf einen Blick." />
-  <meta name="theme-color" content="#0f0f14" media="(prefers-color-scheme: dark)" />
-  <meta name="theme-color" content="#f5f5f8" media="(prefers-color-scheme: light)" />
-  <meta property="og:title" content="Dein Name – Profil" />
-  <meta property="og:description" content="Digitale Visitenkarte und Linktree – Alle wichtigen Links auf einen Blick." />
+  <meta name="description" content="Leon Siemon-Wenzel – IT Systems Administrator & Infrastructure Engineer. Open to new opportunities." />
+  <meta name="theme-color" content="#06080b" />
+  <meta property="og:title" content="Leon Siemon-Wenzel" />
+  <meta property="og:description" content="IT Systems Administrator & Infrastructure Engineer. Open to new opportunities." />
   <meta property="og:type" content="profile" />
-  <meta property="og:locale" content="de_DE" />
+  <meta property="og:locale" content="en_US" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👤</text></svg>" />
-  <title>Dein Name – Profil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Leon Siemon-Wenzel</title>
   <style>
+    /* ── Variables ─────────────────────────────────────────── */
     :root {
-      --bg-dark: #0f0f14;
-      --bg-card: #1a1a24;
-      --bg-card-hover: #222230;
-      --text-primary: #f0f0f5;
-      --text-secondary: #a0a0b0;
-      --accent-1: #6366f1;
-      --accent-2: #a855f7;
-      --accent-3: #ec4899;
-      --glow: rgba(99, 102, 241, 0.3);
-      --border-radius: 16px;
-      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg:             #06080b;
+      --bg-card:        rgba(18, 22, 28, 0.78);
+      --bg-card-hover:  rgba(24, 30, 38, 0.88);
+      --text-primary:   rgba(240, 245, 255, 0.92);
+      --text-secondary: rgba(240, 245, 255, 0.55);
+      --accent:         #76e4ff;
+      --accent-dim:     rgba(118, 228, 255, 0.15);
+      --accent-border:  rgba(118, 228, 255, 0.3);
+      --border:         rgba(255, 255, 255, 0.08);
+      --border-hover:   rgba(118, 228, 255, 0.4);
+      --glow:           rgba(118, 228, 255, 0.25);
+      --dot-a:          rgba(255, 255, 255, 0.07);
+      --dot-b:          rgba(255, 255, 255, 0.035);
+      --radius-card:    14px;
+      --radius-icon:    10px;
+      --shadow:         0 20px 60px rgba(0, 0, 0, 0.55);
+      --transition:     0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg-dark: #f5f5f8;
-        --bg-card: #ffffff;
-        --bg-card-hover: #f8f8fc;
-        --text-primary: #1a1a24;
-        --text-secondary: #6b6b7a;
-        --glow: rgba(99, 102, 241, 0.15);
-        --gradient-opacity: 0.12;
-      }
-
-      body::before {
-        background:
-          radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.2) 0%, transparent 40%),
-          radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.2) 0%, transparent 40%),
-          radial-gradient(circle at 40% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
-      }
-
-      .link-card {
-        background: rgba(255, 255, 255, 0.7);
-        border: 1.5px solid rgba(255, 255, 255, 0.5);
-      }
-    }
-
-    * {
+    /* ── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    /* ── Base ──────────────────────────────────────────────── */
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      background: var(--bg-dark);
+      font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Menlo, monospace;
+      background: linear-gradient(180deg, #070a0f, #06080b);
       color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 48px 20px;
       position: relative;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: '';
+    /* ── Dot-grid background ───────────────────────────────── */
+    .bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 40% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+      inset: 0;
       z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle, var(--dot-a) 1px, transparent 1.7px),
+        radial-gradient(circle, var(--dot-b) 1px, transparent 2.2px),
+        radial-gradient(1100px 600px at 50% 20%, rgba(118, 228, 255, 0.06), transparent 60%),
+        radial-gradient(900px 500px at 15% 75%, rgba(102, 255, 153, 0.05), transparent 60%),
+        radial-gradient(900px 500px at 85% 80%, rgba(255, 180, 100, 0.04), transparent 60%);
+      background-size:
+        18px 18px,
+        28px 28px,
+        auto, auto, auto;
+      animation: bg-drift 22s linear infinite;
+      will-change: background-position;
     }
 
+    @keyframes bg-drift {
+      from { background-position: 0 0, 0 0, 50% 20%, 15% 75%, 85% 80%; }
+      to   { background-position: -70px -46px, 52px -92px, 50% 20%, 15% 75%, 85% 80%; }
+    }
+
+    /* ── Layout ────────────────────────────────────────────── */
     .container {
       width: 100%;
-      max-width: 450px;
-      animation: fadeIn 0.8s ease-out;
+      max-width: 460px;
       position: relative;
       z-index: 1;
+      animation: fadeUp 0.7s ease-out both;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .profile-section {
+    /* ── Profile section ───────────────────────────────────── */
+    .profile {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 48px;
-    }
-
-    .username {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
       text-align: center;
-      position: relative;
-      padding: 0 20px;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 2px 10px rgba(99, 102, 241, 0.3));
-      animation: titleGlow 3s ease-in-out infinite;
+      margin-bottom: 32px;
+      gap: 18px;
     }
 
-    @keyframes titleGlow {
-      0%, 100% { filter: drop-shadow(0 2px 10px rgba(99, 102, 241, 0.3)); }
-      50% { filter: drop-shadow(0 4px 20px rgba(168, 85, 247, 0.5)); }
+    .profile-name {
+      font-size: clamp(1.8rem, 6vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1.15;
     }
-    
-    .username::before {
+
+    .profile-divider {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--glow);
+    }
+
+    /* ── Bio card ──────────────────────────────────────────── */
+    .bio-card {
+      width: 100%;
+      padding: 18px 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Terminal bio card ─────────────────────────────────── */
+    .bio-card {
+      padding: 0;
+      overflow: hidden;
+      text-align: left;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      transition:
+        transform var(--transition),
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+      will-change: transform;
+      cursor: pointer;
+    }
+
+    /* Shimmer */
+    .bio-card::after {
       content: '';
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -16px;
-      width: 60px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
-      border-radius: 2px;
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(118, 228, 255, 0.06), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+      pointer-events: none;
     }
 
+    .bio-card:hover {
+      transform: translateY(-3px) scale(1.012);
+      border-color: var(--border-hover);
+      box-shadow:
+        0 12px 40px -8px var(--glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .bio-card:hover::after {
+      left: 120%;
+    }
+
+    .term-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .term-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .term-dot--red    { background: #ff5f57; }
+    .term-dot--yellow { background: #febc2e; }
+    .term-dot--green  { background: #28c840; }
+
+    .term-title {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      margin-left: 6px;
+    }
+
+    .term-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .term-cmd {
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      margin-top: 4px;
+    }
+
+    .term-prompt {
+      color: var(--accent);
+      margin-right: 8px;
+      font-weight: 700;
+    }
+
+    .term-line {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      padding-left: 16px;
+    }
+
+    .term-key {
+      color: var(--accent);
+      display: inline-block;
+      min-width: 52px;
+    }
+
+    .term-spacer {
+      height: 6px;
+    }
+
+    /* ── Syntax highlighting ───────────────────────────────── */
+    .sh-cmd     { color: #76e4ff; }           /* cyan  — builtins/commands  */
+    .sh-file    { color: #a8ff78; }           /* green — filenames          */
+    .sh-dotfile { color: #68d391; }           /* muted green — hidden files */
+    .sh-val     { color: rgba(240, 245, 255, 0.75); } /* off-white — values */
+    .sh-num     { color: #f6ad55; }           /* orange — numbers           */
+
+    .bio-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-left: 16px;
+    }
+
+    .bio-list li {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .bio-list li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .term-cmd--link {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .term-cursor {
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 6px;
+      animation: blink 1.2s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* ── Badge ─────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .badge--neutral {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: rgba(240, 245, 255, 0.75);
+    }
+
+    .badge--neutral::before {
+      display: none;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.35; }
+    }
+
+    /* ── Links ─────────────────────────────────────────────── */
     .links {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
+      list-style: none;
     }
 
     .link-card {
       display: flex;
       align-items: center;
-      gap: 20px;
-      padding: 22px 30px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
       text-decoration: none;
       color: var(--text-primary);
-      transition: 
-        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition:
+        transform var(--transition),
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
       position: relative;
       overflow: hidden;
-      border: 1.5px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
       will-change: transform;
+      cursor: pointer;
+      font-family: inherit;
+      width: 100%;
+      text-align: left;
     }
 
-    .link-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.2));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
+    /* Shimmer */
     .link-card::after {
       content: '';
       position: absolute;
       top: -50%;
-      left: -50%;
-      width: 200%;
+      left: -60%;
+      width: 40%;
       height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transform: rotate(45deg);
-      transition: 
-        left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.3s ease;
-      opacity: 0;
+      background: linear-gradient(90deg, transparent, rgba(118, 228, 255, 0.06), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+      pointer-events: none;
     }
 
     .link-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      border-color: rgba(99, 102, 241, 0.5);
+      transform: translateY(-3px) scale(1.012);
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
       box-shadow:
-        0 20px 60px -10px rgba(99, 102, 241, 0.5),
-        0 0 0 1px rgba(99, 102, 241, 0.3) inset,
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .link-card:hover::before {
-      opacity: 1;
+        0 12px 40px -8px var(--glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .link-card:hover::after {
-      opacity: 1;
-      left: 150%;
+      left: 120%;
     }
 
     .link-icon {
@@ -216,169 +404,199 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.25rem;
       flex-shrink: 0;
+      background: var(--accent-dim);
+      border-radius: var(--radius-icon);
+      transition: background 0.2s ease, transform var(--transition);
       position: relative;
       z-index: 1;
-      background: rgba(99, 102, 241, 0.15);
-      border-radius: 12px;
-      transition: 
-        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-        background 0.3s ease;
-      will-change: transform;
     }
 
     .link-card:hover .link-icon {
-      background: rgba(99, 102, 241, 0.3);
-      transform: scale(1.1);
+      background: rgba(118, 228, 255, 0.22);
+      transform: scale(1.08);
     }
 
     .link-text {
+      font-size: 0.97rem;
       font-weight: 600;
-      font-size: 1.1rem;
+      letter-spacing: -0.01em;
       position: relative;
       z-index: 1;
-      letter-spacing: -0.01em;
     }
 
     .link-arrow {
       margin-left: auto;
-      opacity: 0.4;
-      transform: translateX(-12px);
-      transition: 
-        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.25s ease;
-      font-size: 1.2rem;
+      font-size: 1rem;
+      opacity: 0.3;
+      transform: translateX(-8px);
+      transition: opacity 0.2s ease, transform var(--transition);
       position: relative;
       z-index: 1;
-      will-change: transform;
+      color: var(--accent);
     }
 
     .link-card:hover .link-arrow {
-      opacity: 1;
+      opacity: 0.85;
       transform: translateX(0);
     }
 
-    /* Accessibility: Focus-Styles */
+    /* Focus */
     .link-card:focus-visible {
-      outline: 2px solid var(--accent-1);
-      outline-offset: 2px;
-      transform: translateY(-3px) scale(1.01);
-      border-color: rgba(99, 102, 241, 0.3);
-    }
-
-    .link-card:focus-visible::before {
-      opacity: 1;
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      transform: translateY(-2px);
     }
 
     .link-card:focus-visible .link-arrow {
-      opacity: 1;
+      opacity: 0.85;
       transform: translateX(0);
     }
 
-    /* Reduced motion: Animationen deaktivieren */
+    /* ── Reduced motion ────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
-      .container {
-        animation: none;
-      }
+      .bg              { animation: none; }
+      .container       { animation: none; }
+      .badge::before   { animation: none; }
 
       .link-card,
-      .link-card::before,
-      .link-arrow {
-        transition: none;
+      .link-card::after,
+      .link-icon,
+      .link-arrow      { transition: none; }
+
+      .link-card:hover { transform: none; }
+    }
+
+    /* ── Mobile ────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      body { padding: 36px 16px; }
+
+      .link-card {
+        padding: 14px 16px;
+        gap: 13px;
       }
 
-      .link-card:hover {
-        transform: none;
+      .link-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
       }
     }
   </style>
 </head>
 <body>
+  <div class="bg" aria-hidden="true"></div>
+
   <main class="container">
-    <section class="profile-section">
-      <h1 class="username">Dein Name</h1>
+
+    <!-- Profile -->
+    <section class="profile" aria-label="Profile">
+      <h1 class="profile-name">Leon Siemon-Wenzel</h1>
+      <div class="profile-divider" aria-hidden="true"></div>
+      <a href="mailto:leon@siemon-wenzel.de" class="bio-card" aria-label="Send email to Leon">
+        <div class="term-bar">
+          <span class="term-dot term-dot--red"></span>
+          <span class="term-dot term-dot--yellow"></span>
+          <span class="term-dot term-dot--green"></span>
+          <span class="term-title">leon@enterprise ~ </span>
+        </div>
+        <div class="term-body">
+          <p class="term-cmd"><span class="term-prompt">$</span> <span class="sh-cmd">cat</span> <span class="sh-file">whoami.conf</span></p>
+          <p class="term-line"><span class="term-key">role</span>    <span class="sh-val">Systems Administrator</span></p>
+          <p class="term-line"><span class="term-key">focus</span>   <span class="sh-val">IT Infrastructure &amp; Automation</span></p>
+          <p class="term-line"><span class="term-key">exp</span>     <span class="sh-val">6 years in global enterprise IT</span></p>
+          <div class="term-spacer"></div>
+          <p class="term-cmd"><span class="term-prompt">$</span> <span class="sh-cmd">cat</span> <span class="sh-file sh-dotfile">.skills</span></p>
+          <ul class="bio-list">
+            <li><span class="sh-val">Build and operate secure, scalable systems</span></li>
+            <li><span class="sh-val">Automation and Linux-based solutions</span></li>
+            <li><span class="sh-val">Open-source where it makes sense</span></li>
+          </ul>
+          <div class="term-spacer"></div>
+          <p class="term-cmd"><span class="term-prompt">$</span> <span class="sh-cmd">bash</span> <span class="sh-file">contact.sh</span><span class="term-cursor">█</span></p>
+        </div>
+      </a>
+      <div class="badges">
+        <span class="badge">Let's work together</span>
+        <span class="badge badge--neutral">🌍 Remote</span>
+        <span class="badge badge--neutral">DE / EN</span>
+      </div>
     </section>
 
-    <nav class="links" aria-label="Soziale Links">
-      <a href="https://example.com/portfolio" class="link-card" aria-label="Portfolio besuchen">
-        <span class="link-icon" aria-hidden="true">💼</span>
-        <span class="link-text">Portfolio</span>
-        <span class="link-arrow" aria-hidden="true">→</span>
-      </a>
-      <a href="https://github.com/username" class="link-card" rel="noopener noreferrer" aria-label="GitHub-Profil öffnen">
-        <span class="link-icon" aria-hidden="true">🐙</span>
-        <span class="link-text">GitHub</span>
-        <span class="link-arrow" aria-hidden="true">→</span>
-      </a>
-      <a href="https://twitter.com/username" class="link-card" rel="noopener noreferrer" aria-label="Twitter/X-Profil öffnen">
-        <span class="link-icon" aria-hidden="true">🐦</span>
-        <span class="link-text">Twitter / X</span>
-        <span class="link-arrow" aria-hidden="true">→</span>
-      </a>
-      <a href="mailto:deine@email.de" class="link-card" aria-label="E-Mail schreiben">
-        <span class="link-icon" aria-hidden="true">📧</span>
-        <span class="link-text">E-Mail</span>
-        <span class="link-arrow" aria-hidden="true">→</span>
-      </a>
-      <a href="https://discord.gg/einladung" class="link-card" rel="noopener noreferrer" aria-label="Discord beitreten">
-        <span class="link-icon" aria-hidden="true">💬</span>
-        <span class="link-text">Discord</span>
-        <span class="link-arrow" aria-hidden="true">→</span>
-      </a>
-      <a href="https://instagram.com/username" class="link-card" rel="noopener noreferrer" aria-label="Instagram-Profil öffnen">
-        <span class="link-icon" aria-hidden="true">📷</span>
-        <span class="link-text">Instagram</span>
-        <span class="link-arrow" aria-hidden="true">→</span>
-      </a>
-      <a href="https://linkedin.com/in/username" class="link-card" rel="noopener noreferrer" aria-label="LinkedIn-Profil öffnen">
-        <span class="link-icon" aria-hidden="true">💼</span>
-        <span class="link-text">LinkedIn</span>
-        <span class="link-arrow" aria-hidden="true">→</span>
-      </a>
-      <a href="https://buymeacoffee.com/username" class="link-card" rel="noopener noreferrer" aria-label="Buy Me a Coffee öffnen">
-        <span class="link-icon" aria-hidden="true">☕</span>
-        <span class="link-text">Buy Me a Coffee</span>
-        <span class="link-arrow" aria-hidden="true">→</span>
-      </a>
+    <!-- Links -->
+    <nav aria-label="Links">
+      <ul class="links">
 
-      <!-- Passwort-Bereich (nur sichtbar mit Payload) -->
-      <button id="password-card" class="link-card" style="display: none; cursor: pointer; border: none; width: 100%;" aria-label="Passwort in Zwischenablage kopieren">
-        <span class="link-icon" aria-hidden="true">🔑</span>
-        <span class="link-text" id="password-text">Dokumentenpasswort: </span>
-        <span class="link-arrow" aria-hidden="true">📋</span>
-      </button>
+        <li>
+          <a href="https://drive.google.com/file/d/DUMMY_LINK" class="link-card" rel="noopener noreferrer" aria-label="Open résumé (Google Drive)">
+            <span class="link-icon" aria-hidden="true">📄</span>
+            <span class="link-text">Résumé</span>
+            <span class="link-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="https://github.com/skrz7btk/" class="link-card" rel="noopener noreferrer" aria-label="Open GitHub profile">
+            <span class="link-icon" aria-hidden="true">🐙</span>
+            <span class="link-text">GitHub</span>
+            <span class="link-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="mailto:leon@siemon-wenzel.de" class="link-card" aria-label="Send an email">
+            <span class="link-icon" aria-hidden="true">📧</span>
+            <span class="link-text">Email</span>
+            <span class="link-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+
+        <!--
+        <li>
+          <a href="https://buymeacoffee.com/username" class="link-card" rel="noopener noreferrer" aria-label="Buy Me a Coffee">
+            <span class="link-icon" aria-hidden="true">☕</span>
+            <span class="link-text">Buy Me a Coffee</span>
+            <span class="link-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+        -->
+
+        <!-- Password card – visible only when a hash payload is present in the URL -->
+        <li>
+          <button id="password-card" class="link-card" style="display: none;" aria-label="Copy document password to clipboard">
+            <span class="link-icon" aria-hidden="true">🔑</span>
+            <span class="link-text" id="password-text">Document password: </span>
+            <span class="link-arrow" aria-hidden="true">📋</span>
+          </button>
+        </li>
+
+      </ul>
     </nav>
+
   </main>
 
   <script>
-    // Hash-Fragment aus URL auslesen (z.B. /#payload123)
+    // Show password card when a hash fragment is present in the URL (e.g. /#myPassword)
     const hash = window.location.hash;
-    
+
     if (hash && hash.length > 1) {
-      // Entferne das '#' am Anfang
       const payload = hash.substring(1);
+      const card    = document.getElementById('password-card');
+      const label   = document.getElementById('password-text');
 
-      // Passwort-Card anzeigen und Payload einfügen
-      const passwordCard = document.getElementById('password-card');
-      const passwordText = document.getElementById('password-text');
-      passwordText.textContent = 'Dokumentenpasswort: ' + payload;
-      passwordCard.style.display = 'flex';
+      label.textContent  = 'Document password: ' + payload;
+      card.style.display = 'flex';
 
-      // Copy-to-Clipboard Funktionalität
-      passwordCard.addEventListener('click', function() {
-        navigator.clipboard.writeText(payload).then(function() {
-          // Visuelles Feedback: Icon kurz ändern
-          const arrow = passwordCard.querySelector('.link-arrow');
-          const originalIcon = arrow.textContent;
-          arrow.textContent = '✓';
-          
-          setTimeout(function() {
-            arrow.textContent = originalIcon;
-          }, 1500);
-        }).catch(function(err) {
-          console.error('Fehler beim Kopieren:', err);
-        });
+      card.addEventListener('click', () => {
+        navigator.clipboard.writeText(payload)
+          .then(() => {
+            const arrow    = card.querySelector('.link-arrow');
+            const original = arrow.textContent;
+            arrow.textContent = '✓';
+            setTimeout(() => { arrow.textContent = original; }, 1500);
+          })
+          .catch(err => console.error('Clipboard error:', err));
       });
     }
   </script>
