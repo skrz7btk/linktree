@@ -3,17 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Leon Siemon-Wenzel – IT Systems Administrator & Infrastructure Engineer. Open to new opportunities." />
+
+  <!-- SEO -->
+  <meta name="description" content="Leon Siemon-Wenzel – IT Systems Administrator specialising in infrastructure, security and automation. Linux-native, open-source advocate. Open to new opportunities." />
+  <meta name="robots"      content="index, follow" />
+  <meta name="author"      content="Leon Siemon-Wenzel" />
+  <link rel="canonical"    href="https://leon.siemon-wenzel.de/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"             content="profile" />
+  <meta property="og:title"            content="Leon Siemon-Wenzel – IT Systems Administrator" />
+  <meta property="og:description"      content="Infrastructure, security & automation specialist with 6+ years in global enterprise IT. Linux-native, open-source by preference." />
+  <meta property="og:url"              content="https://leon.siemon-wenzel.de/" />
+  <meta property="og:locale"           content="en_US" />
+  <meta property="og:locale:alternate" content="de_DE" />
+  <meta property="profile:first_name"  content="Leon" />
+  <meta property="profile:last_name"   content="Siemon-Wenzel" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="Leon Siemon-Wenzel – IT Systems Administrator" />
+  <meta name="twitter:description" content="Infrastructure, security & automation specialist. Linux-native, open-source by preference." />
+
+  <!-- Theme -->
   <meta name="theme-color" content="#06080b" />
-  <meta property="og:title" content="Leon Siemon-Wenzel" />
-  <meta property="og:description" content="IT Systems Administrator & Infrastructure Engineer. Open to new opportunities." />
-  <meta property="og:type" content="profile" />
-  <meta property="og:locale" content="en_US" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type":    "Person",
+    "name":     "Leon Siemon-Wenzel",
+    "jobTitle": "IT Systems Administrator",
+    "url":      "https://leon.siemon-wenzel.de/",
+    "email":    "leon@siemon-wenzel.de",
+    "sameAs":   ["https://github.com/skrz7btk/"],
+    "knowsLanguage": ["de", "en"],
+    "knowsAbout":    ["IT Infrastructure", "Network Security", "Linux", "Automation", "Open Source"]
+  }
+  </script>
+
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👤</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <title>Leon Siemon-Wenzel</title>
+
   <style>
     /* ── Variables ─────────────────────────────────────────── */
     :root {
@@ -68,12 +104,9 @@
         radial-gradient(circle, var(--dot-a) 1px, transparent 1.7px),
         radial-gradient(circle, var(--dot-b) 1px, transparent 2.2px),
         radial-gradient(1100px 600px at 50% 20%, rgba(118, 228, 255, 0.06), transparent 60%),
-        radial-gradient(900px 500px at 15% 75%, rgba(102, 255, 153, 0.05), transparent 60%),
-        radial-gradient(900px 500px at 85% 80%, rgba(255, 180, 100, 0.04), transparent 60%);
-      background-size:
-        18px 18px,
-        28px 28px,
-        auto, auto, auto;
+        radial-gradient(900px  500px at 15% 75%, rgba(102, 255, 153, 0.05), transparent 60%),
+        radial-gradient(900px  500px at 85% 80%, rgba(255, 180, 100, 0.04), transparent 60%);
+      background-size: 18px 18px, 28px 28px, auto, auto, auto;
       animation: bg-drift 22s linear infinite;
       will-change: background-position;
     }
@@ -89,10 +122,10 @@
       max-width: 460px;
       position: relative;
       z-index: 1;
-      animation: fadeUp 0.7s ease-out both;
+      animation: fade-up 0.7s ease-out both;
     }
 
-    @keyframes fadeUp {
+    @keyframes fade-up {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
@@ -123,22 +156,17 @@
       box-shadow: 0 0 10px var(--glow);
     }
 
-    /* ── Bio card ──────────────────────────────────────────── */
+    /* ── Terminal bio card ─────────────────────────────────── */
     .bio-card {
       width: 100%;
-      padding: 18px 22px;
+      padding: 0;
+      overflow: hidden;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-card);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
-    }
-
-    /* ── Terminal bio card ─────────────────────────────────── */
-    .bio-card {
-      padding: 0;
-      overflow: hidden;
       text-align: left;
       text-decoration: none;
       color: inherit;
@@ -152,7 +180,6 @@
       cursor: pointer;
     }
 
-    /* Shimmer */
     .bio-card::after {
       content: '';
       position: absolute;
@@ -178,6 +205,7 @@
       left: 120%;
     }
 
+    /* ── Terminal internals ────────────────────────────────── */
     .term-bar {
       display: flex;
       align-items: center;
@@ -239,12 +267,23 @@
       height: 6px;
     }
 
+    .term-cursor {
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 6px;
+      animation: blink 1.2s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
     /* ── Syntax highlighting ───────────────────────────────── */
-    .sh-cmd     { color: #76e4ff; }           /* cyan  — builtins/commands  */
-    .sh-file    { color: #a8ff78; }           /* green — filenames          */
-    .sh-dotfile { color: #68d391; }           /* muted green — hidden files */
-    .sh-val     { color: rgba(240, 245, 255, 0.75); } /* off-white — values */
-    .sh-num     { color: #f6ad55; }           /* orange — numbers           */
+    .sh-cmd     { color: #76e4ff; }                        /* cyan  — builtins / commands  */
+    .sh-file    { color: #a8ff78; }                        /* green — filenames            */
+    .sh-dotfile { color: #68d391; }                        /* muted green — hidden files   */
+    .sh-val     { color: rgba(240, 245, 255, 0.75); }      /* off-white — values           */
 
     .bio-list {
       list-style: none;
@@ -270,26 +309,14 @@
       font-weight: 700;
     }
 
-    .term-cmd--link {
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-      display: inline-block;
+    /* ── Badges ────────────────────────────────────────────── */
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
     }
 
-    .term-cursor {
-      font-size: 0.8rem;
-      color: var(--accent);
-      margin-top: 6px;
-      animation: blink 1.2s step-end infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0; }
-    }
-
-    /* ── Badge ─────────────────────────────────────────────── */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -304,11 +331,14 @@
       color: var(--accent);
     }
 
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+      animation: pulse 2s ease-in-out infinite;
     }
 
     .badge--neutral {
@@ -321,22 +351,12 @@
       display: none;
     }
 
-    .badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 6px var(--accent);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.35; }
     }
 
-    /* ── Links ─────────────────────────────────────────────── */
+    /* ── Link cards ────────────────────────────────────────── */
     .links {
       display: flex;
       flex-direction: column;
@@ -371,7 +391,6 @@
       text-align: left;
     }
 
-    /* Shimmer */
     .link-card::after {
       content: '';
       position: absolute;
@@ -396,6 +415,17 @@
 
     .link-card:hover::after {
       left: 120%;
+    }
+
+    .link-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      transform: translateY(-2px);
+    }
+
+    .link-card:focus-visible .link-arrow {
+      opacity: 0.85;
+      transform: translateX(0);
     }
 
     .link-icon {
@@ -442,28 +472,17 @@
       transform: translateX(0);
     }
 
-    /* Focus */
-    .link-card:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-      transform: translateY(-2px);
-    }
-
-    .link-card:focus-visible .link-arrow {
-      opacity: 0.85;
-      transform: translateX(0);
-    }
-
     /* ── Reduced motion ────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
-      .bg              { animation: none; }
-      .container       { animation: none; }
-      .badge::before   { animation: none; }
+      .bg            { animation: none; }
+      .container     { animation: none; }
+      .badge::before { animation: none; }
+      .term-cursor   { animation: none; }
 
       .link-card,
       .link-card::after,
       .link-icon,
-      .link-arrow      { transition: none; }
+      .link-arrow    { transition: none; }
 
       .link-card:hover { transform: none; }
     }
@@ -483,8 +502,71 @@
         font-size: 1.1rem;
       }
     }
+
+    /* ── Print ─────────────────────────────────────────────── */
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+        padding: 20px;
+        font-size: 11pt;
+      }
+
+      .bg { display: none; }
+
+      .badges { margin-bottom: 12px; }
+
+      .badge {
+        border: 1px solid #ccc;
+        color: #333;
+        background: none;
+      }
+
+      .badge::before { display: none; }
+
+      .bio-card {
+        border: 1px solid #ccc;
+        background: #f9f9f9;
+        color: #000;
+        box-shadow: none;
+        backdrop-filter: none;
+      }
+
+      .term-bar    { background: #eee; border-bottom: 1px solid #ccc; }
+      .term-dot    { display: none; }
+      .term-cursor { display: none; }
+
+      .term-title,
+      .term-key    { color: #555; }
+      .term-prompt { color: #333; }
+      .sh-cmd      { color: #0066cc; }
+      .sh-file     { color: #006600; }
+      .sh-dotfile  { color: #338855; }
+      .sh-val      { color: #222; }
+
+      .link-card {
+        border: 1px solid #ccc;
+        background: #f9f9f9;
+        color: #000;
+        box-shadow: none;
+        backdrop-filter: none;
+        break-inside: avoid;
+      }
+
+      .link-card::after { display: none; }
+      .link-icon        { background: #eee; }
+      .link-arrow       { display: none; }
+
+      a.link-card::after {
+        content: ' (' attr(href) ')';
+        font-size: 0.7rem;
+        color: #666;
+        display: block;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="bg" aria-hidden="true"></div>
 
@@ -494,6 +576,8 @@
     <section class="profile" aria-label="Profile">
       <h1 class="profile-name">Leon Siemon-Wenzel</h1>
       <div class="profile-divider" aria-hidden="true"></div>
+
+      <!-- Terminal bio — clicking opens mailto -->
       <a href="mailto:leon@siemon-wenzel.de" class="bio-card" aria-label="Send email to Leon">
         <div class="term-bar">
           <span class="term-dot term-dot--red"></span>
@@ -502,25 +586,38 @@
           <span class="term-title">leon@enterprise ~ </span>
         </div>
         <div class="term-body">
-          <p class="term-cmd"><span class="term-prompt">$</span> <span class="sh-cmd">cat</span> <span class="sh-file">whoami.conf</span></p>
-          <p class="term-line"><span class="term-key">role</span>    <span class="sh-val">Systems Administrator</span></p>
-          <p class="term-line"><span class="term-key">focus</span>   <span class="sh-val">IT Infrastructure &amp; Automation</span></p>
-          <p class="term-line"><span class="term-key">exp</span>     <span class="sh-val">6 years in global enterprise IT</span></p>
+          <p class="term-cmd">
+            <span class="term-prompt">$</span>
+            <span class="sh-cmd">cat</span>
+            <span class="sh-file">whoami.conf</span>
+          </p>
+          <p class="term-line"><span class="term-key">role</span>  <span class="sh-val" data-i18n="role">Systems Administrator</span></p>
+          <p class="term-line"><span class="term-key">focus</span> <span class="sh-val" data-i18n="focus">IT Infrastructure &amp; Automation</span></p>
+          <p class="term-line"><span class="term-key">exp</span>   <span class="sh-val" data-i18n="exp">5.4 years in global enterprise IT</span></p>
           <div class="term-spacer"></div>
-          <p class="term-cmd"><span class="term-prompt">$</span> <span class="sh-cmd">cat</span> <span class="sh-file sh-dotfile">.skills</span></p>
+          <p class="term-cmd">
+            <span class="term-prompt">$</span>
+            <span class="sh-cmd">cat</span>
+            <span class="sh-file sh-dotfile">.skills</span>
+          </p>
           <ul class="bio-list">
-            <li><span class="sh-val">Build and operate secure, scalable systems</span></li>
-            <li><span class="sh-val">Automation and Linux-based solutions</span></li>
-            <li><span class="sh-val">Open-source where it makes sense</span></li>
+            <li><span class="sh-val" data-i18n="skill1">Build, secure and operate scalable systems</span></li>
+            <li><span class="sh-val" data-i18n="skill2">Automation and Linux-based solutions</span></li>
+            <li><span class="sh-val" data-i18n="skill3">Open-source where it makes sense</span></li>
           </ul>
           <div class="term-spacer"></div>
-          <p class="term-cmd"><span class="term-prompt">$</span> <span class="sh-cmd">bash</span> <span class="sh-file">contact.sh</span><span class="term-cursor">█</span></p>
+          <p class="term-cmd">
+            <span class="term-prompt">$</span>
+            <span class="sh-cmd">bash</span>
+            <span class="sh-file">contact.sh</span><span class="term-cursor">█</span>
+          </p>
         </div>
       </a>
+
       <div class="badges">
-        <span class="badge">Let's work together</span>
-        <span class="badge badge--neutral">🌍 Remote</span>
-        <span class="badge badge--neutral">DE / EN</span>
+        <span class="badge"           data-i18n="badge1">Let's work together</span>
+        <span class="badge badge--neutral" data-i18n="badge2">🌍 Remote</span>
+        <span class="badge badge--neutral" data-i18n="badge3">DE / EN</span>
       </div>
     </section>
 
@@ -530,15 +627,15 @@
 
         <li>
           <a href="https://drive.google.com/file/d/DUMMY_LINK" class="link-card" rel="noopener noreferrer" aria-label="Open résumé (Google Drive)">
-            <span class="link-icon" aria-hidden="true">📄</span>
-            <span class="link-text">Résumé</span>
+            <span class="link-icon"  aria-hidden="true">📄</span>
+            <span class="link-text"  data-i18n="resume">Résumé</span>
             <span class="link-arrow" aria-hidden="true">→</span>
           </a>
         </li>
 
         <li>
           <a href="https://github.com/skrz7btk/" class="link-card" rel="noopener noreferrer" aria-label="Open GitHub profile">
-            <span class="link-icon" aria-hidden="true">🐙</span>
+            <span class="link-icon"  aria-hidden="true">🐙</span>
             <span class="link-text">GitHub</span>
             <span class="link-arrow" aria-hidden="true">→</span>
           </a>
@@ -546,8 +643,8 @@
 
         <li>
           <a href="mailto:leon@siemon-wenzel.de" class="link-card" aria-label="Send an email">
-            <span class="link-icon" aria-hidden="true">📧</span>
-            <span class="link-text">Email</span>
+            <span class="link-icon"  aria-hidden="true">📧</span>
+            <span class="link-text"  data-i18n="email">Email</span>
             <span class="link-arrow" aria-hidden="true">→</span>
           </a>
         </li>
@@ -555,18 +652,18 @@
         <!--
         <li>
           <a href="https://buymeacoffee.com/username" class="link-card" rel="noopener noreferrer" aria-label="Buy Me a Coffee">
-            <span class="link-icon" aria-hidden="true">☕</span>
+            <span class="link-icon"  aria-hidden="true">☕</span>
             <span class="link-text">Buy Me a Coffee</span>
             <span class="link-arrow" aria-hidden="true">→</span>
           </a>
         </li>
         -->
 
-        <!-- Password card – visible only when a hash payload is present in the URL -->
+        <!-- Password card — shown only when a hash payload is present in the URL -->
         <li>
-          <button id="password-card" class="link-card" style="display: none;" aria-label="Copy document password to clipboard">
-            <span class="link-icon" aria-hidden="true">🔑</span>
-            <span class="link-text" id="password-text">Document password: </span>
+          <button id="password-card" class="link-card" style="display:none;" aria-label="Copy document password to clipboard">
+            <span class="link-icon"  aria-hidden="true">🔑</span>
+            <span class="link-text"  id="password-text">Document password: </span>
             <span class="link-arrow" aria-hidden="true">📋</span>
           </button>
         </li>
@@ -577,15 +674,74 @@
   </main>
 
   <script>
-    // Show password card when a hash fragment is present in the URL (e.g. /#myPassword)
+    // ── Years of experience (since 2020-09-01) ───────────────
+    const yrsRaw  = (Date.now() - new Date('2020-09-01').getTime()) / (1000 * 60 * 60 * 24 * 365.25);
+    const yrsEn   = yrsRaw.toFixed(1);
+    const yrsDeEs = yrsEn.replace('.', ',');
+
+    // ── Translations ─────────────────────────────────────────
+    const i18n = {
+      de: {
+        role:    'Systems Administrator',
+        focus:   'IT-Infrastruktur & Automatisierung',
+        exp:     `${yrsDeEs} Jahre in globaler Enterprise-IT`,
+        skill1:  'Aufbau, Absicherung und Betrieb skalierbarer Systeme',
+        skill2:  'Automatisierung und Linux-basierte Lösungen',
+        skill3:  'Open-Source wo es Sinn macht',
+        badge1:  'Lass uns zusammenarbeiten',
+        badge2:  '🌍 Remote',
+        badge3:  'DE / EN',
+        resume:  'Lebenslauf',
+        email:   'E-Mail',
+        pwlabel: 'Dokumentenpasswort: ',
+      },
+      es: {
+        role:    'Administrador de Sistemas',
+        focus:   'Infraestructura TI & Automatización',
+        exp:     `${yrsDeEs} años en entornos empresariales globales`,
+        skill1:  'Construir, asegurar y operar sistemas escalables',
+        skill2:  'Automatización y soluciones basadas en Linux',
+        skill3:  'Open-source donde tiene sentido',
+        badge1:  'Trabajemos juntos',
+        badge2:  '🌍 Remoto',
+        badge3:  'DE / EN',
+        resume:  'Currículum',
+        email:   'Correo',
+        pwlabel: 'Contraseña del documento: ',
+      },
+      en: {
+        role:    'Systems Administrator',
+        focus:   'IT Infrastructure & Automation',
+        exp:     `${yrsEn} years in global enterprise IT`,
+        skill1:  'Build, secure and operate scalable systems',
+        skill2:  'Automation and Linux-based solutions',
+        skill3:  'Open-source where it makes sense',
+        badge1:  "Let's work together",
+        badge2:  '🌍 Remote',
+        badge3:  'DE / EN',
+        resume:  'Résumé',
+        email:   'Email',
+        pwlabel: 'Document password: ',
+      },
+    };
+
+    const lang = (navigator.language || 'en').toLowerCase().split('-')[0];
+    const t    = i18n[lang] || i18n.en;
+
+    // Apply translations
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.textContent = t[el.dataset.i18n] ?? el.textContent;
+    });
+
+    // ── Password card ─────────────────────────────────────────
     const hash = window.location.hash;
 
-    if (hash && hash.length > 1) {
-      const payload = hash.substring(1);
+    if (hash.length > 1) {
+      const payload = hash.slice(1);
       const card    = document.getElementById('password-card');
       const label   = document.getElementById('password-text');
 
-      label.textContent  = 'Document password: ' + payload;
+      label.textContent  = t.pwlabel + payload;
       card.style.display = 'flex';
 
       card.addEventListener('click', () => {
