@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +27,13 @@
   <meta name="twitter:description" content="Infrastructure, security & automation specialist. Linux-native, open-source by preference." />
 
   <!-- Theme -->
-  <meta name="theme-color" content="#06080b" />
+  <meta name="theme-color"  content="#06080b" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Security — what a static page can set itself; frame-ancestors,
+       HSTS and X-Content-Type-Options belong in the server config -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'" />
+  <meta name="referrer" content="no-referrer" />
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -39,16 +46,12 @@
     "email":    "leon@siemon-wenzel.de",
     "sameAs":   ["https://github.com/skrz7btk/"],
     "knowsLanguage": ["de", "en"],
-    "knowsAbout":    ["IT Infrastructure", "Network Security", "Linux", "Automation", "Open Source"]
+    "knowsAbout":    ["IT Infrastructure", "Network Security", "Linux", "Automation", "Open Source", "Ansible", "Docker", "Bash", "Python"]
   }
   </script>
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👤</text></svg>" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
-
-  <title>Leon Siemon-Wenzel</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230a0e14'/><rect x='2' y='2' width='96' height='96' rx='20' fill='none' stroke='%2376e4ff' stroke-opacity='0.55' stroke-width='4'/><text x='50' y='66' font-family='monospace' font-size='44' font-weight='bold' fill='%2376e4ff' text-anchor='middle'>%3E_</text></svg>" />
+  <title>Leon Siemon-Wenzel · IT Systems Administrator</title>
 
   <style>
     /* ── Variables ─────────────────────────────────────────── */
@@ -81,7 +84,7 @@
 
     /* ── Base ──────────────────────────────────────────────── */
     body {
-      font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Menlo, monospace;
+      font-family: ui-monospace, 'JetBrains Mono', 'Cascadia Code', 'SF Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
       background: linear-gradient(180deg, #070a0f, #06080b);
       color: var(--text-primary);
       min-height: 100vh;
@@ -114,6 +117,51 @@
     @keyframes bg-drift {
       from { background-position: 0 0, 0 0, 50% 20%, 15% 75%, 85% 80%; }
       to   { background-position: -70px -46px, 52px -92px, 50% 20%, 15% 75%, 85% 80%; }
+    }
+
+    /* ── Language switcher ─────────────────────────────────── */
+    .lang-switch {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 2;
+      display: flex;
+      gap: 2px;
+      padding: 3px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .lang-switch button {
+      font-family: inherit;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      border-radius: 999px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .lang-switch button:hover {
+      color: var(--text-primary);
+    }
+
+    .lang-switch button.active {
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .lang-switch button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
     }
 
     /* ── Layout ────────────────────────────────────────────── */
@@ -205,6 +253,11 @@
       left: 120%;
     }
 
+    .bio-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
     /* ── Terminal internals ────────────────────────────────── */
     .term-bar {
       display: flex;
@@ -239,6 +292,12 @@
       gap: 4px;
     }
 
+    /* Typing reveal — children hidden while the intro animation runs */
+    .term-body.is-typing > * {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
     .term-cmd {
       font-size: 0.8rem;
       color: var(--text-primary);
@@ -261,6 +320,17 @@
       color: var(--accent);
       display: inline-block;
       min-width: 52px;
+    }
+
+    .term-ls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px 16px;
+    }
+
+    .sh-dir {
+      color: var(--accent);
+      font-weight: 600;
     }
 
     .term-spacer {
@@ -434,13 +504,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
+      color: var(--accent);
       flex-shrink: 0;
       background: var(--accent-dim);
       border-radius: var(--radius-icon);
       transition: background 0.2s ease, transform var(--transition);
       position: relative;
       z-index: 1;
+    }
+
+    .link-icon svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+
+    .link-arrow svg {
+      width: 16px;
+      height: 16px;
+      display: block;
     }
 
     .link-card:hover .link-icon {
@@ -489,7 +571,9 @@
 
     /* ── Mobile ────────────────────────────────────────────── */
     @media (max-width: 480px) {
-      body { padding: 36px 16px; }
+      body { padding: 60px 16px 36px; }
+
+      .lang-switch { top: 12px; right: 12px; }
 
       .link-card {
         padding: 14px 16px;
@@ -499,7 +583,11 @@
       .link-icon {
         width: 36px;
         height: 36px;
-        font-size: 1.1rem;
+      }
+
+      .link-icon svg {
+        width: 16px;
+        height: 16px;
       }
     }
 
@@ -512,7 +600,8 @@
         font-size: 11pt;
       }
 
-      .bg { display: none; }
+      .bg          { display: none; }
+      .lang-switch { display: none; }
 
       .badges { margin-bottom: 12px; }
 
@@ -542,6 +631,7 @@
       .sh-cmd      { color: #0066cc; }
       .sh-file     { color: #006600; }
       .sh-dotfile  { color: #338855; }
+      .sh-dir      { color: #0066cc; }
       .sh-val      { color: #222; }
 
       .link-card {
@@ -554,7 +644,7 @@
       }
 
       .link-card::after { display: none; }
-      .link-icon        { background: #eee; }
+      .link-icon        { background: #eee; color: #333; }
       .link-arrow       { display: none; }
 
       a.link-card::after {
@@ -563,12 +653,22 @@
         color: #666;
         display: block;
       }
+
+      /* Do not print the raw vCard data URI */
+      a.link-card[href^='data:']::after { content: none; }
     }
   </style>
 </head>
 
 <body>
   <div class="bg" aria-hidden="true"></div>
+
+  <!-- Language switcher -->
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button type="button" data-lang="de">DE</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="es">ES</button>
+  </div>
 
   <main class="container">
 
@@ -578,7 +678,7 @@
       <div class="profile-divider" aria-hidden="true"></div>
 
       <!-- Terminal bio — clicking opens mailto -->
-      <a href="mailto:leon@siemon-wenzel.de" class="bio-card" aria-label="Send email to Leon">
+      <a href="mailto:leon@siemon-wenzel.de" class="bio-card" aria-label="Send email to Leon" data-i18n-aria="ariaBio">
         <div class="term-bar">
           <span class="term-dot term-dot--red"></span>
           <span class="term-dot term-dot--yellow"></span>
@@ -593,7 +693,7 @@
           </p>
           <p class="term-line"><span class="term-key">role</span>  <span class="sh-val" data-i18n="role">Systems Administrator</span></p>
           <p class="term-line"><span class="term-key">focus</span> <span class="sh-val" data-i18n="focus">IT Infrastructure &amp; Automation</span></p>
-          <p class="term-line"><span class="term-key">exp</span>   <span class="sh-val" data-i18n="exp">5.4 years in global enterprise IT</span></p>
+          <p class="term-line"><span class="term-key">exp</span>   <span class="sh-val" data-i18n="exp">5.9 years in global enterprise IT</span></p>
           <div class="term-spacer"></div>
           <p class="term-cmd">
             <span class="term-prompt">$</span>
@@ -608,6 +708,20 @@
           <div class="term-spacer"></div>
           <p class="term-cmd">
             <span class="term-prompt">$</span>
+            <span class="sh-cmd">ls</span>
+            <span class="sh-file">toolbox/</span>
+          </p>
+          <p class="term-line term-ls">
+            <span class="sh-dir">linux/</span>
+            <span class="sh-dir">ansible/</span>
+            <span class="sh-dir">docker/</span>
+            <span class="sh-dir">bash/</span>
+            <span class="sh-dir">python/</span>
+            <span class="sh-dir">networking/</span>
+          </p>
+          <div class="term-spacer"></div>
+          <p class="term-cmd">
+            <span class="term-prompt">$</span>
             <span class="sh-cmd">bash</span>
             <span class="sh-file">contact.sh</span><span class="term-cursor">█</span>
           </p>
@@ -616,7 +730,7 @@
 
       <div class="badges">
         <span class="badge"           data-i18n="badge1">Let's work together</span>
-        <span class="badge badge--neutral" data-i18n="badge2">🌍 Remote</span>
+        <span class="badge badge--neutral" data-i18n="badge2">Remote</span>
         <span class="badge badge--neutral" data-i18n="badge3">DE / EN</span>
       </div>
     </section>
@@ -626,17 +740,34 @@
       <ul class="links">
 
         <li>
-          <a href="cv-encrypted.pdf" class="link-card" download aria-label="Download résumé as PDF">
-            <span class="link-icon"  aria-hidden="true">📄</span>
+          <a href="cv-encrypted.pdf" class="link-card" download aria-label="Download résumé as PDF" data-i18n-aria="ariaResume">
+            <span class="link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
             <span class="link-text"  data-i18n="resume">Résumé</span>
             <span class="link-arrow" aria-hidden="true">→</span>
           </a>
         </li>
 
         <li>
-          <a href="mailto:leon@siemon-wenzel.de" class="link-card" aria-label="Send an email">
-            <span class="link-icon"  aria-hidden="true">📧</span>
+          <a href="mailto:leon@siemon-wenzel.de" class="link-card" aria-label="Send an email" data-i18n-aria="ariaEmail">
+            <span class="link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
             <span class="link-text"  data-i18n="email">Email</span>
+            <span class="link-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0D%0AVERSION%3A3.0%0D%0AN%3ASiemon-Wenzel%3BLeon%3B%3B%3B%0D%0AFN%3ALeon%20Siemon-Wenzel%0D%0ATITLE%3AIT%20Systems%20Administrator%0D%0AEMAIL%3BTYPE%3DINTERNET%3Aleon%40siemon-wenzel.de%0D%0AURL%3Ahttps%3A%2F%2Fleon.siemon-wenzel.de%2F%0D%0AEND%3AVCARD"
+             class="link-card" download="leon-siemon-wenzel.vcf" aria-label="Save contact as vCard" data-i18n-aria="ariaVcard">
+            <span class="link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span>
+            <span class="link-text"  data-i18n="vcard">Save contact</span>
+            <span class="link-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="https://github.com/skrz7btk/" class="link-card" target="_blank" rel="me noopener noreferrer" aria-label="GitHub profile">
+            <span class="link-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>
+            <span class="link-text">GitHub</span>
             <span class="link-arrow" aria-hidden="true">→</span>
           </a>
         </li>
@@ -653,10 +784,10 @@
 
         <!-- Password card — shown only when a hash payload is present in the URL -->
         <li>
-          <button id="password-card" class="link-card" style="display:none;" aria-label="Copy document password to clipboard">
-            <span class="link-icon"  aria-hidden="true">🔑</span>
+          <button id="password-card" class="link-card" style="display:none;" aria-label="Copy document password to clipboard" data-i18n-aria="ariaPw">
+            <span class="link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></span>
             <span class="link-text"  id="password-text">Document password: </span>
-            <span class="link-arrow" aria-hidden="true">📋</span>
+            <span class="link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>
           </button>
         </li>
 
@@ -674,79 +805,213 @@
     // ── Translations ─────────────────────────────────────────
     const i18n = {
       de: {
-        role:    'Systems Administrator',
-        focus:   'IT-Infrastruktur & Automatisierung',
-        exp:     `${yrsDeEs} Jahre in globaler Enterprise-IT`,
-        skill1:  'Aufbau, Absicherung und Betrieb skalierbarer Systeme',
-        skill2:  'Automatisierung und Linux-basierte Lösungen',
-        skill3:  'Open-Source wo es Sinn macht',
-        badge1:  'Lass uns zusammenarbeiten',
-        badge2:  '🌍 Remote',
-        badge3:  'DE / EN',
-        resume:  'Lebenslauf',
-        email:   'E-Mail',
-        pwlabel: 'Dokumentenpasswort: ',
+        role:       'Systems Administrator',
+        focus:      'IT-Infrastruktur & Automatisierung',
+        exp:        `${yrsDeEs} Jahre in globaler Enterprise-IT`,
+        skill1:     'Aufbau, Absicherung und Betrieb skalierbarer Systeme',
+        skill2:     'Automatisierung und Linux-basierte Lösungen',
+        skill3:     'Open-Source wo es Sinn macht',
+        badge1:     'Lass uns zusammenarbeiten',
+        badge2:     'Remote',
+        badge3:     'DE / EN',
+        resume:     'Lebenslauf',
+        email:      'E-Mail',
+        vcard:      'Kontakt speichern',
+        pwlabel:    'Dokumentenpasswort: ',
+        ariaBio:    'E-Mail an Leon senden',
+        ariaResume: 'Lebenslauf als PDF herunterladen',
+        ariaEmail:  'E-Mail senden',
+        ariaVcard:  'Kontakt als vCard speichern',
+        ariaPw:     'Dokumentenpasswort in die Zwischenablage kopieren',
       },
       es: {
-        role:    'Administrador de Sistemas',
-        focus:   'Infraestructura TI & Automatización',
-        exp:     `${yrsDeEs} años en entornos empresariales globales`,
-        skill1:  'Construir, asegurar y operar sistemas escalables',
-        skill2:  'Automatización y soluciones basadas en Linux',
-        skill3:  'Open-source donde tiene sentido',
-        badge1:  'Trabajemos juntos',
-        badge2:  '🌍 Remoto',
-        badge3:  'DE / EN',
-        resume:  'Currículum',
-        email:   'Correo',
-        pwlabel: 'Contraseña del documento: ',
+        role:       'Administrador de Sistemas',
+        focus:      'Infraestructura TI & Automatización',
+        exp:        `${yrsDeEs} años en entornos empresariales globales`,
+        skill1:     'Construir, asegurar y operar sistemas escalables',
+        skill2:     'Automatización y soluciones basadas en Linux',
+        skill3:     'Open-source donde tiene sentido',
+        badge1:     'Trabajemos juntos',
+        badge2:     'Remoto',
+        badge3:     'DE / EN',
+        resume:     'Currículum',
+        email:      'Correo',
+        vcard:      'Guardar contacto',
+        pwlabel:    'Contraseña del documento: ',
+        ariaBio:    'Enviar un correo a Leon',
+        ariaResume: 'Descargar currículum en PDF',
+        ariaEmail:  'Enviar correo',
+        ariaVcard:  'Guardar contacto como vCard',
+        ariaPw:     'Copiar contraseña del documento al portapapeles',
       },
       en: {
-        role:    'Systems Administrator',
-        focus:   'IT Infrastructure & Automation',
-        exp:     `${yrsEn} years in global enterprise IT`,
-        skill1:  'Build, secure and operate scalable systems',
-        skill2:  'Automation and Linux-based solutions',
-        skill3:  'Open-source where it makes sense',
-        badge1:  "Let's work together",
-        badge2:  '🌍 Remote',
-        badge3:  'DE / EN',
-        resume:  'Résumé',
-        email:   'Email',
-        pwlabel: 'Document password: ',
+        role:       'Systems Administrator',
+        focus:      'IT Infrastructure & Automation',
+        exp:        `${yrsEn} years in global enterprise IT`,
+        skill1:     'Build, secure and operate scalable systems',
+        skill2:     'Automation and Linux-based solutions',
+        skill3:     'Open-source where it makes sense',
+        badge1:     "Let's work together",
+        badge2:     'Remote',
+        badge3:     'DE / EN',
+        resume:     'Résumé',
+        email:      'Email',
+        vcard:      'Save contact',
+        pwlabel:    'Document password: ',
+        ariaBio:    'Send email to Leon',
+        ariaResume: 'Download résumé as PDF',
+        ariaEmail:  'Send an email',
+        ariaVcard:  'Save contact as vCard',
+        ariaPw:     'Copy document password to clipboard',
       },
     };
 
-    const lang = (navigator.language || 'en').toLowerCase().split('-')[0];
-    const t    = i18n[lang] || i18n.en;
-
-    // Apply translations
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.textContent = t[el.dataset.i18n] ?? el.textContent;
-    });
-
     // ── Password card ─────────────────────────────────────────
-    const hash = window.location.hash;
+    const hash      = window.location.hash;
+    const pwPayload = hash.length > 1 ? hash.slice(1) : null;
+    const pwCard    = document.getElementById('password-card');
+    const pwLabel   = document.getElementById('password-text');
 
-    if (hash.length > 1) {
-      const payload = hash.slice(1);
-      const card    = document.getElementById('password-card');
-      const label   = document.getElementById('password-text');
+    if (pwPayload) {
+      pwCard.style.display = 'flex';
 
-      label.textContent  = t.pwlabel + payload;
-      card.style.display = 'flex';
-
-      card.addEventListener('click', () => {
-        navigator.clipboard.writeText(payload)
+      pwCard.addEventListener('click', () => {
+        navigator.clipboard.writeText(pwPayload)
           .then(() => {
-            const arrow    = card.querySelector('.link-arrow');
-            const original = arrow.textContent;
+            const arrow    = pwCard.querySelector('.link-arrow');
+            const original = arrow.innerHTML;
             arrow.textContent = '✓';
-            setTimeout(() => { arrow.textContent = original; }, 1500);
+            setTimeout(() => { arrow.innerHTML = original; }, 1500);
           })
           .catch(err => console.error('Clipboard error:', err));
       });
     }
+
+    // ── Language handling ─────────────────────────────────────
+    const LANGS = ['de', 'en', 'es'];
+
+    function storedLang() {
+      try { return localStorage.getItem('lang'); } catch { return null; }
+    }
+
+    let currentLang = storedLang();
+    if (!LANGS.includes(currentLang)) {
+      currentLang = (navigator.language || 'en').toLowerCase().split('-')[0];
+      if (!LANGS.includes(currentLang)) currentLang = 'en';
+    }
+
+    function applyLang(code) {
+      currentLang = code;
+      const t = i18n[code];
+
+      document.documentElement.lang = code;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = t[el.dataset.i18n] ?? el.textContent;
+      });
+
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const label = t[el.dataset.i18nAria];
+        if (label) el.setAttribute('aria-label', label);
+      });
+
+      document.querySelectorAll('.lang-switch button').forEach(btn => {
+        const active = btn.dataset.lang === code;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active);
+      });
+
+      if (pwPayload) pwLabel.textContent = t.pwlabel + pwPayload;
+    }
+
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        finishTyping();
+        applyLang(btn.dataset.lang);
+        try { localStorage.setItem('lang', btn.dataset.lang); } catch {}
+      });
+    });
+
+    applyLang(currentLang);
+
+    // ── Terminal typing intro ─────────────────────────────────
+    // Commands type out character by character, output lines fade in.
+    // Skipped entirely under prefers-reduced-motion; a language switch
+    // while running completes it instantly.
+    const termBody   = document.querySelector('.term-body');
+    const motionOK   = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let typingActive = false;
+    let typingTimer  = null;
+    const typedNodes = [];   // [textNode, fullText] pairs emptied for the animation
+
+    function finishTyping() {
+      if (!typingActive) return;
+      typingActive = false;
+      clearTimeout(typingTimer);
+      typedNodes.forEach(([node, text]) => { node.nodeValue = text; });
+      endTyping();
+    }
+
+    function endTyping() {
+      typingActive = false;
+      termBody.classList.remove('is-typing');
+      [...termBody.children].forEach(el => el.style.removeProperty('opacity'));
+    }
+
+    function runTyping() {
+      const steps    = [...termBody.children];
+      const cmdNodes = new Map();
+
+      steps.forEach(el => {
+        if (!el.classList.contains('term-cmd')) return;
+        const list = [];
+        (function collect(node) {
+          node.childNodes.forEach(child => {
+            if (child.nodeType === 3) {
+              if (child.nodeValue.trim()) list.push([child, child.nodeValue]);
+            } else if (child.nodeType === 1 && !child.classList.contains('term-cursor')) {
+              collect(child);
+            }
+          });
+        })(el);
+        list.forEach(pair => { pair[0].nodeValue = ''; });
+        cmdNodes.set(el, list);
+        typedNodes.push(...list);
+      });
+
+      typingActive = true;
+      termBody.classList.add('is-typing');
+
+      let s = 0;
+
+      function nextStep() {
+        if (!typingActive) return;
+        if (s >= steps.length) { endTyping(); return; }
+
+        const el = steps[s++];
+        el.style.opacity = '1';
+
+        if (cmdNodes.has(el)) {
+          const list = cmdNodes.get(el);
+          let i = 0, j = 0;
+
+          (function typeChar() {
+            if (!typingActive) return;
+            if (i >= list.length) { typingTimer = setTimeout(nextStep, 260); return; }
+            const [node, text] = list[i];
+            node.nodeValue = text.slice(0, ++j);
+            if (j >= text.length) { i = i + 1; j = 0; }
+            typingTimer = setTimeout(typeChar, 24);
+          })();
+        } else {
+          typingTimer = setTimeout(nextStep, el.classList.contains('term-spacer') ? 40 : 110);
+        }
+      }
+
+      nextStep();
+    }
+
+    if (motionOK) runTyping();
   </script>
 </body>
 </html>
